@@ -6,7 +6,7 @@ function App() {
   const [state] = useState(drumState());
   const [playing, setPlaying] = useState(false);
 
-  const handlePlay = (e) => {
+  const handlePlay = () => {
     setPlaying(true);
     setTimeout(() => setPlaying(false), 200);
   };
