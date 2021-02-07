@@ -6,7 +6,7 @@ function App() {
   const [state] = useState(drumState());
   const [playing, setPlaying] = useState(false);
 
-  const handlePlay = () => {
+  const handlePlay = (e) => {
     setPlaying(true);
     setTimeout(() => setPlaying(false), 200);
   };
@@ -17,10 +17,10 @@ function App() {
       <PadContainer>
         {state.map((drum) => (
           <Pad
-            onClick={(e) => e.target.id === drum.key && handlePlay()}
             playing={playing}
             key={drum.keyCode}
-            id={drum.key}
+            letter={drum.key}
+            onClick={(e) => e.target.innerText === drum.key && handlePlay()}
           >
             {drum.key}
           </Pad>
