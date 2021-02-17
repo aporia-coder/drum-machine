@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import drumState from "./utilities/drumState";
 import styled from "styled-components";
 
 function App() {
   const [state] = useState(drumState());
   const [playing, setPlaying] = useState(false);
+  const audioRef = useRef(null);
 
-  const handlePlay = (e) => {
+  const handlePlay = (id) => {
     setPlaying(true);
+    document.getElementById(id).play();
     setTimeout(() => setPlaying(false), 200);
   };
 
@@ -15,16 +17,22 @@ function App() {
     <>
       <Header>Drum Machine</Header>
       <PadContainer>
-        {state.map((drum) => (
-          <Pad
-            playing={playing}
-            key={drum.keyCode}
-            letter={drum.key}
-            onClick={(e) => e.target.innerText === drum.key && handlePlay()}
-          >
-            {drum.key}
-          </Pad>
-        ))}
+        {state.map((drum) => {
+          console.log(drum.key);
+          return (
+            <>
+              <Pad
+                playing={playing}
+                key={drum.keyCode}
+                letter={drum.key}
+                onClick={() => handlePlay(drum.keyCode)}
+              >
+                {drum.key}
+                <audio src={drum.audio} id={drum.keyCode}></audio>
+              </Pad>
+            </>
+          );
+        })}
       </PadContainer>
     </>
   );
@@ -47,8 +55,6 @@ const Pad = styled.div`
   border: 1px solid #000;
   border-radius: 10px;
   margin: 1rem;
-  background-color: ${(props) =>
-    props.playing ? props.theme.primary : "#f1f1f1"};
 `;
 
 export default App;
